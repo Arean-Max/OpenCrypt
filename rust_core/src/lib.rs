@@ -1,1 +1,1 @@
-// OpenCrypt core cryptographic engine
+pub mod error;
