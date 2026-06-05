@@ -13,6 +13,9 @@ pub enum CryptError {
 
     #[error("Memory allocation failed")]
     Memory,
+
+    #[error("Invalid parameter")]
+    InvalidParam,
 }
 
 pub type Result<T> = std::result::Result<T, CryptError>;
