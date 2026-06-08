@@ -30,11 +30,10 @@ fn decode_key(b64: &str) -> Result<[u8; 32]> {
     Ok(key)
 }
 
-// WIP: temporary fast key derivation placeholder for initial streaming tests
-fn derive_key_simple(password: &[u8], salt: &[u8]) -> Result<[u8; 32]> {
+fn derive_key(password: &[u8], salt: &[u8]) -> Result<[u8; 32]> {
     let mut key = [0u8; 32];
-    for (i, b) in password.iter().chain(salt.iter()).enumerate() {
-        key[i % 32] ^= b;
-    }
+    let ctx = argon2::Argon2::default();
+    ctx.hash_password_into(password, salt, &mut key)
+        .map_err(|_| CryptError::Memory)?;
     Ok(key)
 }

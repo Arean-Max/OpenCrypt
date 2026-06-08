@@ -8,6 +8,8 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 aes-gcm = "0.10"
+argon2 = { version = "0.5", features = ["std"] }
 getrandom = "0.2"
 base64 = "0.22"
+generic-array = "0.14"
 thiserror = "2"
