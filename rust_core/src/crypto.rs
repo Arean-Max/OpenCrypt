@@ -37,3 +37,10 @@ fn derive_key(password: &[u8], salt: &[u8]) -> Result<[u8; 32]> {
         .map_err(|_| CryptError::Memory)?;
     Ok(key)
 }
+
+fn validate_file_length(len: u64) -> Result<()> {
+    if (len as usize) < HEADER_LEN {
+        return Err(CryptError::InvalidFormat);
+    }
+    Ok(())
+}
