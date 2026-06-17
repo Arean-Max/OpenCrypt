@@ -47,6 +47,9 @@ fn validate_file_length(len: u64) -> Result<()> {
 
 fn make_nonce(base: &[u8; NONCE_LEN], counter: u32) -> [u8; NONCE_LEN] {
     let mut n = *base;
-    n[8] = counter as u8;
+    n[8] = (counter >> 24) as u8;
+    n[9] = (counter >> 16) as u8;
+    n[10] = (counter >> 8) as u8;
+    n[11] = counter as u8;
     n
 }
