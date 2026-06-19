@@ -1,4 +1,5 @@
 use crate::error::CryptError;
+use std::panic::{catch_unwind, AssertUnwindSafe};
 
 pub type CryptResult = i32;
 
@@ -23,5 +24,12 @@ fn err_to_code(e: CryptError) -> i32 {
         CryptError::Unsupported => CRYPT_ERR_UNSUPPORTED,
         CryptError::OutputExists => CRYPT_ERR_OUTPUT_EXISTS,
         CryptError::InputInvalid => CRYPT_ERR_INPUT_INVALID,
+    }
+}
+
+fn guard(f: impl FnOnce() -> CryptResult) -> CryptResult {
+    match catch_unwind(AssertUnwindSafe(f)) {
+        Ok(code) => code,
+        Err(_) => CRYPT_ERR_PANIC,
     }
 }
