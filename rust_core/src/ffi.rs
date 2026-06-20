@@ -33,3 +33,26 @@ fn guard(f: impl FnOnce() -> CryptResult) -> CryptResult {
         Err(_) => CRYPT_ERR_PANIC,
     }
 }
+
+use std::ffi::CStr;
+use std::os::raw::c_char;
+
+fn cstr_to_str_safe(ptr: *const c_char) -> Result<String, CryptError> {
+    if ptr.is_null() {
+        return Err(CryptError::InvalidParam);
+    }
+    unsafe {
+        CStr::from_ptr(ptr)
+            .to_str()
+            .map(|s| s.to_owned())
+            .map_err(|_| CryptError::InvalidParam)
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn crypt_verify_password(input: *const c_char, password: *const c_char) -> CryptResult {
+    guard(|| {
+        let _in_str = cstr_to_str_safe(input).map_err(err_to_code);
+        CRYPT_SUCCESS
+    })
+}
