@@ -7,9 +7,10 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-aes-gcm = "0.10"
+aes-gcm = { version = "0.10", features = ["zeroize"] }
 argon2 = { version = "0.5", features = ["std"] }
 getrandom = "0.2"
 base64 = "0.22"
 generic-array = "0.14"
+zeroize = { version = "1", features = ["derive"] }
 thiserror = "2"
