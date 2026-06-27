@@ -16,6 +16,15 @@ pub enum CryptError {
 
     #[error("Invalid parameter")]
     InvalidParam,
+
+    #[error("Operation not supported on this platform")]
+    Unsupported,
+
+    #[error("Output file already exists")]
+    OutputExists,
+
+    #[error("Invalid input file or path")]
+    InputInvalid,
 }
 
 pub type Result<T> = std::result::Result<T, CryptError>;
