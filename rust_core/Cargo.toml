@@ -14,3 +14,6 @@ base64 = "0.22"
 generic-array = "0.14"
 zeroize = { version = "1", features = ["derive"] }
 thiserror = "2"
+
+[dev-dependencies]
+libloading = "0.8"
