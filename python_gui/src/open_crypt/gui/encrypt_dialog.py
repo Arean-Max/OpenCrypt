@@ -157,14 +157,14 @@ class EncryptDialog(QDialog):
         self.copy_btn.setObjectName("icon")
         self.copy_btn.setToolTip(_t("tooltip_copy_key"))
         self.copy_btn.setFixedSize(36, 36)
-        self.copy_btn.clicked.connect(lambda: None)
+        self.copy_btn.clicked.connect(self._on_copy)
         icon_row.addWidget(self.copy_btn)
 
         self.save_btn = QPushButton("↓")
         self.save_btn.setObjectName("icon")
         self.save_btn.setToolTip(_t("tooltip_save_key"))
         self.save_btn.setFixedSize(36, 36)
-        self.save_btn.clicked.connect(lambda: None)
+        self.save_btn.clicked.connect(self._on_save)
         icon_row.addWidget(self.save_btn)
 
         icon_row.addStretch()
