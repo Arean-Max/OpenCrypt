@@ -15,5 +15,8 @@ generic-array = "0.14"
 zeroize = { version = "1", features = ["derive"] }
 thiserror = "2"
 
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"
+
 [dev-dependencies]
 libloading = "0.8"
