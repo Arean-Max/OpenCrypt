@@ -25,7 +25,7 @@ pub fn register(exe: &str, script: &str, encrypt_label: &str, decrypt_label: &st
     if !Path::new(exe).exists() {
         return Err(CryptError::InputInvalid);
     }
-    let hkcu = RegKey::predef(HKEY_LOCAL_MACHINE);
+    let hkcu = RegKey::predef(HKEY_CURRENT_USER);
     let (classes, _) = hkcu
         .create_subkey("Software\\Classes")
         .map_err(CryptError::Io)?;
@@ -75,7 +75,7 @@ pub fn unregister() -> Result<()> {
     use winreg::enums::*;
     use winreg::RegKey;
 
-    let hkcu = RegKey::predef(HKEY_LOCAL_MACHINE);
+    let hkcu = RegKey::predef(HKEY_CURRENT_USER);
     let classes = hkcu
         .open_subkey("Software\\Classes")
         .map_err(CryptError::Io)?;
@@ -111,7 +111,7 @@ pub fn is_registered() -> bool {
     use winreg::enums::*;
     use winreg::RegKey;
 
-    let hkcu = RegKey::predef(HKEY_LOCAL_MACHINE);
+    let hkcu = RegKey::predef(HKEY_CURRENT_USER);
     let path = format!("Software\\Classes\\*\\shell\\{ENCRYPT_GUID}\\command");
     hkcu.open_subkey(path).is_ok()
 }
