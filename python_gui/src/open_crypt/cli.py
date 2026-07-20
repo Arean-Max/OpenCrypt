@@ -18,9 +18,15 @@ def main():
         return 1
 
     if args.decrypt:
-        if not args.key:
-            print("Error: --key required", file=sys.stderr)
-            return 1
+        key = args.key
+        if key is None:
+            cand = p.with_name(p.stem + "_key.key")
+            if cand.exists():
+                key = cand.read_text().strip()
+                print(f"Using key from: {cand}")
+            else:
+                print("Error: --key required or place keyfile next to file", file=sys.stderr)
+                return 1
         out = p.with_suffix("")
         get_bridge().decrypt_file_with_key(str(p), str(out), args.key)
         print(f"Decrypted: {out}")
