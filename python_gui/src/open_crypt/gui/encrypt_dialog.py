@@ -244,7 +244,8 @@ class EncryptDialog(QDialog):
             str(self.file_path.stem + "_key.key"),
             _t("key_filter")
         )
-        Path(f).write_text(key)
+        if f:
+            Path(f).write_text(key)
             log.info(f"key saved: {f}")
             self._start_encrypt()
 
