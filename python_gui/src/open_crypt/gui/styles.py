@@ -1,0 +1,13 @@
+BG_BLACK = "#000000"
+BG_DARK = "#0a0a0a"
+BG_MID = "#1a1a1a"
+BG_LIGHT = "#2a2a2a"
+FG_WHITE = "#ffffff"
+FG_MUTED = "#666666"
+FG_DIM = "#444444"
+ACCENT = "#1a73e8"
+ACCENT_HOVER = "#1557b0"
+
+REPO_URL = "https://github.com/Arean-Max/OpenCrypt/issues/new"
+ERROR_RED = "#cf6679"
+SUCCESS_GREEN = "#4caf50"
