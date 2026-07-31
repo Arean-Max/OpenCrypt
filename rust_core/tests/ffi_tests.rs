@@ -184,7 +184,7 @@ fn disabled_ffi_generate_random_key_short_buffer_fails() {
 }
 
 #[test]
-fn disabled_ffi_null_pointer_is_invalid_param() {
+fn ffi_null_pointer_is_invalid_param() {
     with_lib(|ffi| unsafe {
         assert_eq!(
             (ffi.encrypt_file)(std::ptr::null(), std::ptr::null(), std::ptr::null()),
