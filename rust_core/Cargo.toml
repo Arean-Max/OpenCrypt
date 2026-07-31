@@ -1,6 +1,6 @@
 [package]
 name = "rust_core"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 
 [lib]
@@ -20,3 +20,9 @@ winreg = "0.52"
 
 [dev-dependencies]
 libloading = "0.8"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = "symbols"
+opt-level = 3
