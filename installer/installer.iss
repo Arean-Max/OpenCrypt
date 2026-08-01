@@ -59,10 +59,13 @@ var
 begin
   if not RegQueryStringValue(HKCU, EnvKey, 'Path', Paths) then
     Paths := '';
-  if Paths <> '' then
-    Paths := Paths + ';';
-  Paths := Paths + InstallPath;
-  RegWriteExpandStringValue(HKCU, EnvKey, 'Path', Paths);
+  if Pos(';' + LowerCase(InstallPath), ';' + LowerCase(Paths)) = 0 then
+  begin
+    if Paths <> '' then
+      Paths := Paths + ';';
+    Paths := Paths + InstallPath;
+    RegWriteExpandStringValue(HKCU, EnvKey, 'Path', Paths);
+  end;
 end;
 
 procedure EnvRemovePath(InstallPath: string);
