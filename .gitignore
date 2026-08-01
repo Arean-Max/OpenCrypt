@@ -1,0 +1,29 @@
+# Build outputs
+Release/
+dist/
+dist_new/
+build_tmp/
+*.spec
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+*.whl
+
+# Rust
+rust_core/target/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.*
