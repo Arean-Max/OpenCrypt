@@ -1,6 +1,0 @@
-Metadata-Version: 2.4
-Name: open-crypt
-Version: 0.2.0
-Summary: File encryption/decryption tool with Windows context menu
-Requires-Python: >=3.11
-Requires-Dist: PyQt6>=6.5
