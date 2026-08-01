@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  rust:
+    name: Rust core
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rust_core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: rust_core
+      - name: Check formatting
+        run: cargo fmt --check
+      - name: Lint
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Build (cdylib for FFI tests)
+        run: cargo build --locked
+      - name: Test
+        run: cargo test --locked
+
+  windows-build:
+    name: Windows build check
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: rust_core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: rust_core
+      - name: Build release DLL
+        run: cargo build --release --locked
+      - name: Run FFI tests against release DLL
+        run: cargo test --locked --release
+        env:
+          OPENCRYPT_CORE_DLL: ${{ github.workspace }}\rust_core\target\release\rust_core.dll
