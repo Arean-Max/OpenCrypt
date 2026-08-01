@@ -1,6 +1,6 @@
 ; OpenCrypt InnoSetup Installer
 #define MyAppName "OpenCrypt"
-#define MyAppVersion "0.1.0"
+#define MyAppVersion "0.2.0"
 #define MyAppPublisher "OpenCrypt"
 #define MyAppURL "https://github.com/Arean-Max/OpenCrypt"
 #define MyAppExeName "OpenCrypt.exe"

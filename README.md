@@ -38,6 +38,10 @@ OpenCrypt encrypts and decrypts files **with one right-click**. Built on Rust fo
 - **Installer available** — per‑user install, clean uninstall
 - **Russian & English** — auto‑detects system language
 
+> **Warning:** your key is the only way to decrypt your files. If you
+> lose the key, your data is **unrecoverable** — no backdoor exists.
+> Always save the key when encrypting (copy or download button).
+
 ## Quick start
 
 ### Portable (one‑shot)
@@ -48,7 +52,7 @@ OpenCrypt encrypts and decrypts files **with one right-click**. Built on Rust fo
 
 ### Installer
 
-1. Run `OpenCrypt_Setup_v0.1.0.exe` (no admin required)
+1. Run `OpenCrypt_Setup_v0.2.0.exe` (no admin required)
 2. Installs to `%LOCALAPPDATA%\Programs\OpenCrypt`
 3. Uninstall via Settings → Apps
 
@@ -89,6 +93,7 @@ cd OpenCrypt
 :: 1. Build Rust core
 cd rust_core
 cargo build --release
+cargo test            :: optional: run the test suite
 cd ..
 
 :: 2. Setup Python environment
@@ -121,13 +126,46 @@ python_gui\.venv\Scripts\pyinstaller --onefile --windowed ^
 - **No dependencies at runtime** — everything is bundled into one EXE
 - **Encryption key is never logged or persisted** — only the key file you explicitly save
 - **Memory‑safe Rust core** — no buffer overflows, no use‑after‑free in the crypto path
+- **Panic‑safe FFI** — every C export catches panics at the boundary
+- **Length‑verified decrypt** — truncated files are detected, not silently returned
+- **Unique per‑file nonces** — 64‑bit random base + per‑chunk counter, no key stream reuse
+
+### File format
+
+The `.ocrypt` format (header layout, chunking, nonce scheme, KDF,
+error codes) is specified in [docs/FILE_FORMAT.md](docs/FILE_FORMAT.md).
+It is versioned and not backward compatible.
+
+### Testing
+
+- **36 automated tests**: unit + integration tests in `rust_core/tests`,
+  including FFI‑boundary tests that load the real DLL (wrong password,
+  null pointers, buffer sizes, truncation, nonce uniqueness, empty files).
+- **CI**: GitHub Actions runs `cargo fmt --check`, `clippy -D warnings`,
+  and the full test suite on every push.
+
+### Audit status
+
+The core has been reviewed internally (2026‑07). It is **not** a
+public, third‑party security audit — no claims of formal certification
+are made. Use at your own risk.
+
+### Antivirus note
+
+Portable executables built with PyInstaller are occasionally flagged by
+some antivirus engines (unsigned one‑file bundles). This is a known
+false‑positive pattern. Build from source or use the installer if you
+prefer, and report false positives to your AV vendor.
 
 ## Project structure
 
 ```
 OpenCrypt/
+├── .github/workflows/    # CI (fmt, clippy, tests, release build)
 ├── assets/              # Icons and resources
 │   └── shield.ico
+├── docs/
+│   └── FILE_FORMAT.md   # .ocrypt format specification
 ├── installer/
 │   └── installer.iss    # InnoSetup script
 ├── python_gui/          # Python + PyQt6 frontend
@@ -137,10 +175,11 @@ OpenCrypt/
 │       ├── shell/       # Context menu registration
 │       └── utils/       # Path utilities
 ├── rust_core/           # Rust encryption engine
-│   └── src/
-│       ├── crypto.rs    # AES‑256‑GCM + Argon2id
-│       ├── ffi.rs       # C‑compatible exports
-│       └── error.rs     # Error types
+│   ├── src/
+│   │   ├── crypto.rs    # AES‑256‑GCM + Argon2id
+│   │   ├── ffi.rs       # C‑compatible exports
+│   │   └── error.rs     # Error types
+│   └── tests/           # Integration tests (incl. FFI boundary)
 ├── build.bat            # Automated build script
 ├── LICENSE
 └── README.md
@@ -153,5 +192,5 @@ MIT — see [LICENSE](LICENSE).
 ---
 
 <div align="center">
-  <sub>Built with Rust + PyQt6. No cloud. No tracking. Just encrypt.</sub>
+  <sub>Just encrypt.</sub>
 </div>
