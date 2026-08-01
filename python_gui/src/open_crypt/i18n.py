@@ -30,6 +30,9 @@ _RU = {
     "splash_init": "Инициализация...",
     "splash_register": "Регистрация контекстного меню...",
     "splash_done": "Готово!",
+    "key_warning": "Сохраните ключ! Без него файл невозможно расшифровать.",
+    "key_warning_close_title": "Ключ не сохранён",
+    "key_warning_close_text": "Ключ не был скопирован или сохранён.\nБез него расшифровать файл будет невозможно.\nЗакрыть окно?",
 }
 
 _EN = {
@@ -60,6 +63,9 @@ _EN = {
     "splash_init": "Initializing...",
     "splash_register": "Registering context menu...",
     "splash_done": "Done!",
+    "key_warning": "Save this key! Without it, the file cannot be decrypted.",
+    "key_warning_close_title": "Key not saved",
+    "key_warning_close_text": "The key was not copied or saved.\nWithout it, the file cannot be decrypted.\nClose anyway?",
 }
 
 _TR = {"ru": _RU, "en": _EN}

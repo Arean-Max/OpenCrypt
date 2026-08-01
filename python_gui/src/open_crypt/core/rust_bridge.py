@@ -48,6 +48,51 @@ class RustBridge:
         self._lib.crypt_secure_delete.argtypes = [ctypes.c_char_p]
         self._lib.crypt_secure_delete.restype = ctypes.c_int
 
+        self._lib.crypt_validate_paths.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_int]
+        self._lib.crypt_validate_paths.restype = ctypes.c_int
+
+        self._lib.crypt_register_context_menu.argtypes = [
+            ctypes.c_char_p,
+            ctypes.c_char_p,
+            ctypes.c_char_p,
+            ctypes.c_char_p,
+        ]
+        self._lib.crypt_register_context_menu.restype = ctypes.c_int
+
+        self._lib.crypt_unregister_context_menu.argtypes = []
+        self._lib.crypt_unregister_context_menu.restype = ctypes.c_int
+
+        self._lib.crypt_context_menu_registered.argtypes = [ctypes.POINTER(ctypes.c_int)]
+        self._lib.crypt_context_menu_registered.restype = ctypes.c_int
+
+    def validate_paths(self, input_path: str, output_path: str, is_decrypt: bool) -> None:
+        r = self._lib.crypt_validate_paths(
+            input_path.encode(), output_path.encode(), int(is_decrypt)
+        )
+        if r != 0:
+            raise error_from_code(r)
+
+    def register_context_menu(
+        self, exe_path: str, script_path: str, encrypt_label: str, decrypt_label: str
+    ) -> None:
+        r = self._lib.crypt_register_context_menu(
+            exe_path.encode(), script_path.encode(), encrypt_label.encode(), decrypt_label.encode()
+        )
+        if r != 0:
+            raise error_from_code(r)
+
+    def unregister_context_menu(self) -> None:
+        r = self._lib.crypt_unregister_context_menu()
+        if r != 0:
+            raise error_from_code(r)
+
+    def context_menu_registered(self) -> bool:
+        out = ctypes.c_int(0)
+        r = self._lib.crypt_context_menu_registered(ctypes.byref(out))
+        if r != 0:
+            raise error_from_code(r)
+        return bool(out.value)
+
     def encrypt_file_with_key(self, input_path: str, output_path: str, key_b64: str) -> None:
         r = self._lib.crypt_encrypt_file_with_key(
             input_path.encode(), output_path.encode(), key_b64.encode()

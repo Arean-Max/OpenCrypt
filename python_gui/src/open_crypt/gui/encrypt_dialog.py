@@ -3,7 +3,7 @@ from pathlib import Path
 
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QPushButton,
-    QLineEdit, QLabel, QFileDialog, QApplication, QWidget,
+    QLineEdit, QLabel, QFileDialog, QApplication, QWidget, QMessageBox,
 )
 from PyQt6.QtCore import Qt, QPropertyAnimation, QEasingCurve, pyqtSignal, QThread, QUrl
 from PyQt6.QtGui import QDesktopServices
@@ -57,7 +57,7 @@ class EncryptDialog(QDialog):
         self._generate_key()
 
     def _center(self):
-        w, h = 300, 140
+        w, h = 300, 190
         screen = QApplication.primaryScreen()
         if screen is not None:
             geo = screen.availableGeometry()
@@ -137,6 +137,11 @@ class EncryptDialog(QDialog):
         self.key_display.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         layout.addWidget(self.key_display)
 
+        self.warn = QLabel(_t("key_warning"))
+        self.warn.setStyleSheet("color: #d9a13b; font-size: 9pt;")
+        self.warn.setWordWrap(True)
+        layout.addWidget(self.warn)
+
         icon_row = QHBoxLayout()
         icon_row.setSpacing(8)
         icon_row.addStretch()
@@ -201,6 +206,19 @@ class EncryptDialog(QDialog):
         if event.key() == Qt.Key.Key_Escape:
             self.reject()
         super().keyPressEvent(event)
+
+    def reject(self):
+        if not self._working and self.key_display.text():
+            answer = QMessageBox.question(
+                self,
+                _t("key_warning_close_title"),
+                _t("key_warning_close_text"),
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No,
+            )
+            if answer != QMessageBox.StandardButton.Yes:
+                return
+        super().reject()
 
     def _generate_key(self):
         try:

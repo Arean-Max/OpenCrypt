@@ -1,7 +1,8 @@
 import sys
-import winreg
 from pathlib import Path
 
+from open_crypt.core.exceptions import CryptError
+from open_crypt.core.rust_bridge import get_bridge
 from open_crypt.i18n import _t
 
 
@@ -28,67 +29,34 @@ def _check_exists() -> bool:
     return Path(get_script_path()).exists()
 
 
+def _script_for_ffi() -> str:
+    if getattr(sys, 'frozen', False):
+        return ""
+    return get_script_path()
+
+
 def register() -> bool:
     if not _check_exists():
         return False
-    exe = get_app_exe()
-    script = get_script_path()
-
-    if getattr(sys, 'frozen', False):
-        encrypt_cmd = f'"{exe}" --encrypt "%1"'
-        decrypt_cmd = f'"{exe}" --decrypt "%1"'
-    else:
-        encrypt_cmd = f'"{exe}" "{script}" --encrypt "%1"'
-        decrypt_cmd = f'"{exe}" "{script}" --decrypt "%1"'
-
-    ok = True
-
-    base = winreg.HKEY_CURRENT_USER
     try:
-        key = winreg.CreateKey(base, f"Software\\Classes\\*\\shell\\{ENCRYPT_GUID}")
-        winreg.SetValueEx(key, "", 0, winreg.REG_SZ, ENCRYPT_CMD)
-        winreg.SetValueEx(key, "Icon", 0, winreg.REG_SZ, exe)
-        winreg.SetValueEx(key, "Exclude", 0, winreg.REG_SZ, ".ocrypt")
-        cmd = winreg.CreateKey(key, "command")
-        winreg.SetValueEx(cmd, "", 0, winreg.REG_SZ, encrypt_cmd)
-        winreg.CloseKey(cmd)
-        winreg.CloseKey(key)
-    except PermissionError:
-        ok = False
+        get_bridge().register_context_menu(
+            get_app_exe(), _script_for_ffi(), ENCRYPT_CMD, DECRYPT_CMD
+        )
+        return True
+    except CryptError:
+        return False
 
+
+def unregister() -> bool:
     try:
-        key = winreg.CreateKey(base, f"Software\\Classes\\.ocrypt\\shell\\{DECRYPT_GUID}")
-        winreg.SetValueEx(key, "", 0, winreg.REG_SZ, DECRYPT_CMD)
-        winreg.SetValueEx(key, "Icon", 0, winreg.REG_SZ, exe)
-        cmd = winreg.CreateKey(key, "command")
-        winreg.SetValueEx(cmd, "", 0, winreg.REG_SZ, decrypt_cmd)
-        winreg.CloseKey(cmd)
-        winreg.CloseKey(key)
-    except PermissionError:
-        ok = False
-
-    return ok
-
-
-def unregister() -> None:
-    base = winreg.HKEY_CURRENT_USER
-    for guid in [ENCRYPT_GUID, DECRYPT_GUID]:
-        try:
-            winreg.DeleteKey(base, f"Software\\Classes\\*\\shell\\{guid}\\command")
-            winreg.DeleteKey(base, f"Software\\Classes\\*\\shell\\{guid}")
-        except FileNotFoundError:
-            pass
-        try:
-            winreg.DeleteKey(base, f"Software\\Classes\\.ocrypt\\shell\\{guid}\\command")
-            winreg.DeleteKey(base, f"Software\\Classes\\.ocrypt\\shell\\{guid}")
-        except FileNotFoundError:
-            pass
+        get_bridge().unregister_context_menu()
+        return True
+    except CryptError:
+        return False
 
 
 def is_registered() -> bool:
     try:
-        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, f"Software\\Classes\\*\\shell\\{ENCRYPT_GUID}\\command")
-        winreg.CloseKey(key)
-        return True
-    except FileNotFoundError:
+        return get_bridge().context_menu_registered()
+    except CryptError:
         return False
