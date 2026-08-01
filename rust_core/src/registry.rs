@@ -1,7 +1,11 @@
 use crate::error::{CryptError, Result};
+
+#[cfg(windows)]
 use std::path::Path;
 
+#[cfg(windows)]
 const ENCRYPT_GUID: &str = "{8A2C5B1E-3D4F-4A6B-9C8D-1E2F3A4B5C6D}";
+#[cfg(windows)]
 const DECRYPT_GUID: &str = "{9B3D6C2F-4E5A-5B7C-0D9E-2F3A4B5C6D7E}";
 
 #[cfg(windows)]
