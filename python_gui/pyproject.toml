@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "open-crypt"
+version = "0.2.1"
+description = "File encryption/decryption tool with Windows context menu"
+requires-python = ">=3.11"
+dependencies = [
+    "PyQt6>=6.5",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+opc = "open_crypt.cli:main"
