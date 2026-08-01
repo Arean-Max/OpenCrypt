@@ -6,4 +6,4 @@ A lightweight Windows file encryption utility powered by AES-256-GCM, Argon2id, 
 Right-click any file in Windows Explorer -> Encrypt with OpenCrypt.
 
 
-Release: v0.2.0
+Release: v0.2.1
