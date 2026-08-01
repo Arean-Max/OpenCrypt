@@ -1,0 +1,28 @@
+[package]
+name = "rust_core"
+version = "0.2.1"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+aes-gcm = { version = "0.10", features = ["zeroize"] }
+argon2 = { version = "0.5", features = ["std"] }
+getrandom = "0.2"
+base64 = "0.22"
+generic-array = "0.14"
+zeroize = { version = "1", features = ["derive"] }
+thiserror = "2"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"
+
+[dev-dependencies]
+libloading = "0.8"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = "symbols"
+opt-level = 3
