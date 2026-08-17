@@ -42,7 +42,7 @@ fn roundtrip_password_small_file() {
 }
 
 #[test]
-fn disabled_roundtrip_password_empty_file() {
+fn roundtrip_password_empty_file() {
     let input = tmp_path("empty.txt");
     let enc = tmp_path("empty.ocrypt");
     let dec = tmp_path("empty_out.txt");
