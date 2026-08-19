@@ -18,7 +18,7 @@ pub const CHUNK_SIZE: usize = 1024 * 1024;
 const TAG_LEN: usize = 16;
 const PLAINTEXT_LEN_LEN: usize = 8;
 
-pub const HEADER_LEN: usize = 41;
+pub const HEADER_LEN: usize = MAGIC.len() + 1 + PLAINTEXT_LEN_LEN + SALT_LEN + NONCE_LEN;
 
 struct Header {
     plaintext_len: u64,
