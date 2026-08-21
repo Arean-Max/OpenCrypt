@@ -24,7 +24,7 @@ pub fn validate_paths(input: &str, output: &str, is_decrypt: bool) -> Result<()>
     }
     let ext = in_path
         .extension()
-        .map(|e| e.to_string_lossy())
+        .map(|e| e.to_string_lossy().to_ascii_lowercase())
         .unwrap_or_default();
     if is_decrypt {
         if ext != OCRYPT_EXT {
@@ -60,7 +60,7 @@ fn norm(p: &Path) -> String {
             Component::ParentDir => {
                 parts.pop();
             }
-            other => parts.push(other.as_os_str().to_string_lossy()),
+            other => parts.push(other.as_os_str().to_string_lossy().to_ascii_lowercase()),
         }
     }
     parts.join("\\")
