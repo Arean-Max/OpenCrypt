@@ -42,7 +42,7 @@ def _encrypt(path: Path) -> int:
     return 0
 
 
-def _decrypt(path: Path, key: str) -> int:
+def _decrypt(path: Path, key: str | None) -> int:
     if key is None:
         key_file = _find_key_file(path)
         if key_file is None:
