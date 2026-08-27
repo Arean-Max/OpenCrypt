@@ -171,7 +171,7 @@ fn ffi_generate_random_key_returns_null_terminated_string() {
 }
 
 #[test]
-fn disabled_ffi_generate_random_key_short_buffer_fails() {
+fn ffi_generate_random_key_short_buffer_fails() {
     with_lib(|ffi| {
         let mut buf = vec![0i8; 10];
         unsafe {
