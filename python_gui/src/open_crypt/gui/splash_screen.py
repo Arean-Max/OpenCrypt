@@ -32,7 +32,7 @@ class SplashScreen(QWidget):
         if _animations_enabled():
             self.setWindowOpacity(0.0)
             self._fade = QPropertyAnimation(self, b"windowOpacity")
-            self._fade.setDuration(500)
+            self._fade.setDuration(300)
             self._fade.setStartValue(0.0)
             self._fade.setEndValue(1.0)
             self._fade.setEasingCurve(QEasingCurve.Type.OutCubic)
@@ -63,7 +63,7 @@ class SplashScreen(QWidget):
         self._timer.stop()
         if _animations_enabled():
             self._fade = QPropertyAnimation(self, b"windowOpacity")
-            self._fade.setDuration(400)
+            self._fade.setDuration(200)
             self._fade.setStartValue(1.0)
             self._fade.setEndValue(0.0)
             self._fade.finished.connect(self.close)
