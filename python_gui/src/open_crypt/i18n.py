@@ -22,7 +22,7 @@ _RU = {
     "tooltip_generate_key": "Сгенерировать ключ",
     "tooltip_copy_key": "Копировать ключ",
     "tooltip_save_key": "Сохранить ключ в файл",
-    "save_key_title": "Сохранить ключь",
+    "save_key_title": "Сохранить ключ",
     "key_filter": "Key файлы (*.key);;Все файлы (*.*)",
     "tooltip_paste_key": "Вставить из буфера",
     "encrypt_context": "Зашифровать данные с помощью OpenCrypt",
