@@ -28,6 +28,9 @@ struct Header {
 
 fn derive_key(password: &[u8], salt: &[u8]) -> Result<[u8; 32]> {
     let mut key = [0u8; 32];
+    // Argon2::default() is m=19 MiB, t=2, p=1. Tuned down from something
+    // more paranoid because encrypting a 4 GB file with t=3 was painful.
+    // TODO: make the params part of the header (FORMAT_VERSION 2).
     let ctx = Argon2::default();
     ctx.hash_password_into(password, salt, &mut key)
         .map_err(|_| CryptError::Memory)?;
