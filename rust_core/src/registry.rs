@@ -11,7 +11,7 @@ const DECRYPT_GUID: &str = "{9B3D6C2F-4E5A-5B7C-0D9E-2F3A4B5C6D7E}";
 #[cfg(windows)]
 fn build_cmd(exe: &str, script: &str, flag: &str) -> String {
     if script.is_empty() {
-        format!("\"{exe}\" --{flag} %1")
+        format!("\"{exe}\" --{flag} \"%1\"")
     } else {
         format!("\"{exe}\" \"{script}\" --{flag} \"%1\"")
     }
