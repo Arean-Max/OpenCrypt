@@ -8,7 +8,7 @@ from .exceptions import error_from_code
 
 class RustBridge:
     _instance = None
-    # _lock = threading.Lock()
+    _lock = threading.Lock()
 
     def __new__(cls):
         if cls._instance is None:
