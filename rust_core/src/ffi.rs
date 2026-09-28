@@ -7,7 +7,7 @@ use zeroize::Zeroize;
 
 pub type CryptResult = i32;
 
-pub const CRYPT_SUCCESS: i32 = 0;
+const CRYPT_SUCCESS: i32 = 0;
 const CRYPT_ERR_IO: i32 = 1;
 const CRYPT_ERR_INVALID_FORMAT: i32 = 2;
 const CRYPT_ERR_INVALID_PASSWORD: i32 = 3;
