@@ -11,3 +11,8 @@ Right-click any file in Windows Explorer -> Encrypt with OpenCrypt.
 opc "report.docx"
 opc -d "report.docx.ocrypt"
 ```
+
+### FAQ
+
+#### How strong is the encryption?
+OpenCrypt utilizes industry-standard AES-256-GCM authenticated encryption with keys derived via Argon2id.
