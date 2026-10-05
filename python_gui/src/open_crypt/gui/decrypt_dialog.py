@@ -55,7 +55,7 @@ class DecryptDialog(QDialog):
         self._apply_stylesheet()
         self._center()
         self._do_animation()
-        # self._auto_paste()
+        self._auto_paste()
 
     def _center(self):
         w, h = 300, 130
