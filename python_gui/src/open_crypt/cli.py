@@ -8,6 +8,8 @@ from open_crypt.core.exceptions import OutputExistsError
 
 
 def _find_key_file(path: Path) -> Path | None:
+    # TODO: fall back to scanning for any *.key in the same folder —
+    # people rename the key file, then get confused why -d can't find it.
     if path.name.endswith(".ocrypt"):
         base = Path(path.name[: -len(".ocrypt")]).stem
     else:
