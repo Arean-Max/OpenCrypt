@@ -16,3 +16,7 @@ opc -d "report.docx.ocrypt"
 
 #### How strong is the encryption?
 OpenCrypt utilizes industry-standard AES-256-GCM authenticated encryption with keys derived via Argon2id.
+
+<p align="center">
+  <img src="docs/screenshots/preview.png" alt="OpenCrypt Preview" />
+</p>
