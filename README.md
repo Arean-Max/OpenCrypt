@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://github.com/Arean-Max/OpenCrypt">
+    <img src="docs/logo.png" alt="OpenCrypt logo" width="560">
+  </a>
+</p>
+
 <p align="center">A lightweight Windows file encryption utility powered by AES-256-GCM, Argon2id, and a native Rust core.</p>
 
 <p align="center">
