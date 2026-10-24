@@ -46,5 +46,3 @@ that is not a great excuse. Help welcome.
 ## Code of conduct
 
 Be civil. That's the whole thing.
-
-<!-- release checklist v0.2.1 complete -->
